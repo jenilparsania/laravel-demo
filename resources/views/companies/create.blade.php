@@ -10,7 +10,7 @@
                     <div class="card-header"> Create A company</div>
                     <div class="card-body">
 
-                        <form action="/company" method="post">
+                        <form action="/companies" method="post">
                             @csrf  <!-- read about it -->
                             <label for="company"> Company </label>
                             <input type="text" class="form-control" name="company" title="company"/>
