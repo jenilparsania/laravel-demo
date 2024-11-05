@@ -42,7 +42,22 @@
                                 
                                 </td> --}}
 
-                                <td>Edit, Delete</td>
+                                <td>
+                                    <div style="float:left;">
+                                       <a href="{{route('companies.edit',$company->id)}}" class="btn btn-success btn-sm">Edit</a>
+                                    </div> 
+                                    <div style="float:left; margin-left:5px;"> 
+                                        <form action="/companies/{{$company->id}}" method="post" onsubmit="return confirm('Delete Company? Are you sure? ')">
+                                            @csrf    
+                                            {{-- without this in the form , you would get a unathorized error --}}
+                                            <input type="hidden" name="_method" value="DELETE"/>
+                                            <input type="submit" name="submit" value="Delete" class="btn btn-sm btn-danger btn-block"/>
+
+                                        
+                                        </form>
+
+                                    </div>
+                                </td>
                                 
 
                             </tr>

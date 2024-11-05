@@ -71,7 +71,16 @@ class CompanyController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        //retrieve the company corresponding to the passed key value 
+        $company = \App\Models\Company::find($id);
+        if (!$company){
+            //normally we redirect user to the index page
+
+            dd("no company found");
+        }
+
+        return view('companies.edit')->with('company',$company);
+
     }
 
     /**
@@ -79,7 +88,29 @@ class CompanyController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // dd($request);
+        $rules = [
+            'company' => 'required|max:50|unique:companies,company,'.$id 
+            // why id added ? look for that 
+
+        ];
+
+        $validator = $this->validate($request,$rules);
+
+        $company = \App\Models\Company::find($id);
+
+        if(!$company) dd("no company found");
+
+        $company->company = $request->company;
+        $company->save();
+
+        //Flash a success messsge
+        Session::flash('success','A new company has been updated');
+
+        //re-direct to index
+        return redirect()->route('companies.index');
+
+
     }
 
     /**
@@ -88,6 +119,19 @@ class CompanyController extends Controller
     public function destroy(string $id)
     {
         //
+        // dd('delete');
+        $company = \App\Models\Company::find($id);
+        if(!$company){
+            dd("no company found");
+            Session::flash('error','No company found');
+        }else{
+            $company->delete();
+            Session::flash('success','Company delete');
+
+        }
+
+        return redirect()->route('companies.index');
+
     }
 
 
